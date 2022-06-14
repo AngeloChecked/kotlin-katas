@@ -1,30 +1,36 @@
 package romannumerals
 
 class RomanNumerals {
+
     fun from(number: Int) =
-        fromTo(number, (4000 to "MV"), (1000 to "M"), ::nineHundredAndLess)
+        fromTo(number, (4000 to "MV"), (1000 to "M")) {
+            val ninetyAndLess = { n: Int ->
+                fromToMiddleDigit(n, (90 to "XC"), (50 to "L"), ::tenAndLess) { n ->
+                    fromTo(n, (40 to "XL"), (10 to "X"), ::tenAndLess) }
+            }
 
-    private fun nineHundredAndLess(number: Int) =
-        if (number >= 900)
-            "CM" + ninetyAndLess(number - 900)
-        else if (number >= 500)
-            "D" + fourHundredAndLess(number - 500)
+            fromToMiddleDigit(it, (900 to "CM"), (500 to "D"), ninetyAndLess) { n ->
+                fromTo(n, (400 to "CD"), (100 to "C"), ninetyAndLess)
+            }
+
+        }
+
+    private fun fromToMiddleDigit(
+        number: Int,
+        oneLessNextDigit: Pair<Int, String>,
+        halfNextDigit: Pair<Int, String>,
+        firstCaseFn: (Int) -> String,
+        secondCaseFn: (Int) -> String,
+    ): String {
+        val (halfNextDigitNumber, halfNextDigitSymbol) = halfNextDigit
+        val (oneLessNextDigitNumber, oneLessNextDigitSymbol) = oneLessNextDigit
+        return if (number >= oneLessNextDigitNumber)
+            oneLessNextDigitSymbol + firstCaseFn(number - oneLessNextDigitNumber)
+        else if (number >= halfNextDigitNumber)
+            halfNextDigitSymbol + secondCaseFn(number - halfNextDigitNumber)
         else
-            fourHundredAndLess(number)
-
-    private fun fourHundredAndLess(number: Int) =
-        fromTo(number, (400 to "CD"), (100 to "C"), ::ninetyAndLess)
-
-    private fun ninetyAndLess(number: Int) =
-        if (number >= 90)
-            "XC" + tenAndLess(number - 90)
-        else if (number >= 50)
-            "L" + fortyAndLess(number - 50)
-        else
-            fortyAndLess(number)
-
-    private fun fortyAndLess(number: Int) =
-        fromTo(number, (40 to "XL"), (10 to "X"), ::tenAndLess)
+            secondCaseFn(number)
+    }
 
     private fun tenAndLess(number: Int) =
         if (number >= 9)
