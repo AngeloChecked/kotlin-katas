@@ -293,4 +293,69 @@ class RomanNumeralsTest {
         assertEquals("CCCXCIX", romanNumerals)
     }
 
+    @Test
+    fun `should get the 400th roman number`() {
+        val romanNumerals = RomanNumerals().from(400)
+        assertEquals("CD", romanNumerals)
+    }
+
+    @Test
+    fun `should get the 401th roman number`() {
+        val romanNumerals = RomanNumerals().from(401)
+        assertEquals("CDI", romanNumerals)
+    }
+
+    @Test
+    fun `should get the 439th roman number`() {
+        val romanNumerals = RomanNumerals().from(439)
+        assertEquals("CDXXXIX", romanNumerals)
+    }
+
+    @Test
+    fun `should get the 500th roman number`() {
+        val romanNumerals = RomanNumerals().from(500)
+        assertEquals("D", romanNumerals)
+    }
+
+    @Test
+    fun `should get the 501th roman number`() {
+        val romanNumerals = RomanNumerals().from(501)
+        assertEquals("DI", romanNumerals)
+    }
+
+    @Test
+    fun `should get the 539th roman number`() {
+        val romanNumerals = RomanNumerals().from(539)
+        assertEquals("DXXXIX", romanNumerals)
+    }
+
+    @Test
+    fun `should get the 599th roman number`() {
+        val romanNumerals = RomanNumerals().from(599)
+        assertEquals("DXCIX", romanNumerals)
+    }
+
+    @Test
+    fun `should get the 900th roman number`() {
+        val romanNumerals = RomanNumerals().from(900)
+        assertEquals("CM", romanNumerals)
+    }
+
+    @Test
+    fun `should get the 999th roman number`() {
+        val romanNumerals = RomanNumerals().from(999)
+        assertEquals("CMXCIX", romanNumerals)
+    }
+
+    @Test
+    fun `should get the 1000th roman number`() {
+        val romanNumerals = RomanNumerals().from(1000)
+        assertEquals("M", romanNumerals)
+    }
+
+    @Test
+    fun `should get the 1439th roman number`() {
+        val romanNumerals = RomanNumerals().from(1439)
+        assertEquals("MCDXXXIX", romanNumerals)
+    }
 }
