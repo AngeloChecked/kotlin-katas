@@ -2,13 +2,30 @@ package romannumerals
 
 class RomanNumerals {
 
+    private val romanNumbersMapping = listOf(
+        (1 to "I"),
+        (4 to "IV"),
+        (5 to "V"),
+        (9 to "IX"),
+        (10 to "X"),
+        (40 to "XL"),
+        (50 to "L"),
+        (90 to "XC"),
+        (100 to "C"),
+        (400 to "CD"),
+        (500 to "D"),
+        (900 to "CM"),
+        (1000 to "M"),
+        (4000 to "MW"),
+        (5000 to "W"),
+    )
     fun from(number: Int) =
         fromTo(number, (4000 to "MV"), (1000 to "M")) {
             val ninetyAndLess = { n: Int ->
-                fromToMiddleDigit(n, (90 to "XC"), (50 to "L"), ::tenAndLess) { n ->
-                    fromTo(n, (40 to "XL"), (10 to "X"), ::tenAndLess) }
+                fromToMiddleDigit(n, (90 to "XC"), (50 to "L"), ::rightSymbol) { n ->
+                    fromTo(n, (40 to "XL"), (10 to "X"), ::rightSymbol)
+                }
             }
-
             fromToMiddleDigit(it, (900 to "CM"), (500 to "D"), ninetyAndLess) { n ->
                 fromTo(n, (400 to "CD"), (100 to "C"), ninetyAndLess)
             }
@@ -32,13 +49,12 @@ class RomanNumerals {
             secondCaseFn(number)
     }
 
-    private fun tenAndLess(number: Int) =
-        if (number >= 9)
-            if (number == 9) "IX" else "X" + unit(number - 10)
-        else if (number >= 4) {
-            if (number == 4) "IV" else "V" + unit(number - 5)
-        } else
-            unit(number)
+    private fun rightSymbol(number: Int): String {
+        if (number==0) return ""
+        val nextDigitIndex = romanNumbersMapping.indexOfFirst { (num, _) -> num > number }
+        val (digitNumber, digitSymbol) = romanNumbersMapping[nextDigitIndex-1]
+        return digitSymbol + unit(number - digitNumber)
+    }
 
     private fun unit(rest: Int) = "I".repeat(rest)
 

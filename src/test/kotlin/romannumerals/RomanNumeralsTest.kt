@@ -358,4 +358,5 @@ class RomanNumeralsTest {
         val romanNumerals = RomanNumerals().from(1439)
         assertEquals("MCDXXXIX", romanNumerals)
     }
+
 }
