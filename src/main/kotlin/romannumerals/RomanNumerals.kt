@@ -1,7 +1,6 @@
 package romannumerals
 
 class RomanNumerals {
-
     private val romanNumbersMapping = listOf(
         (1 to "I"),
         (4 to "IV"),
@@ -19,6 +18,7 @@ class RomanNumerals {
         (4000 to "MW"),
         (5000 to "W"),
     )
+
     fun from(number: Int) =
         fromTo(number, (4000 to "MV"), (1000 to "M")) {
             val ninetyAndLess = { n: Int ->
@@ -50,9 +50,9 @@ class RomanNumerals {
     }
 
     private fun rightSymbol(number: Int): String {
-        if (number==0) return ""
+        if (number == 0) return ""
         val nextDigitIndex = romanNumbersMapping.indexOfFirst { (num, _) -> num > number }
-        val (digitNumber, digitSymbol) = romanNumbersMapping[nextDigitIndex-1]
+        val (digitNumber, digitSymbol) = romanNumbersMapping[nextDigitIndex - 1]
         return digitSymbol + unit(number - digitNumber)
     }
 
@@ -74,6 +74,4 @@ class RomanNumerals {
         val hundreds = hundredSymbol.repeat(hundredMultiplayer)
         return hundreds + nextFn(number - (hundredMultiplier * hundredMultiplayer))
     }
-
-
 }

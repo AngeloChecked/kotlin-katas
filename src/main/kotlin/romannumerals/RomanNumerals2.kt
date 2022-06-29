@@ -1,7 +1,6 @@
 package romannumerals
 
 class RomanNumerals2 {
-
     private val romanNumbersMapping = listOf(
         (1 to "I"),
         (4 to "IV"),
@@ -31,5 +30,4 @@ class RomanNumerals2 {
         val nextDigitIndex = romanNumbersMapping.indexOfFirst { (digit, _) -> digit > number }
         return romanNumbersMapping.getOrNull(nextDigitIndex - 1) ?: romanNumbersMapping[nextDigitIndex]
     }
-
 }
