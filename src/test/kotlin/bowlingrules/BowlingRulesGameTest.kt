@@ -48,7 +48,7 @@ class BowlingRulesGameTest {
         game.roll(6)
         val score = game.score()
 
-        assertEquals(10+3+6, score)
+        assertEquals(10+3+6+3+6, score)
     }
 
 }
