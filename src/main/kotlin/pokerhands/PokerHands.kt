@@ -27,12 +27,9 @@ data class Card(val rank: Int, val symbol: String) {
 fun List<Card>.format() = this.joinToString(" ")
 
 class PokerHands {
-
     fun whichWin(leftHand: List<Card>, rightHand: List<Card>): String {
-
         val pairsInLeftHand = handPairs(leftHand)
         val pairsInRightHand = handPairs(rightHand)
-
         if (listOf(pairsInLeftHand, pairsInRightHand).any { it.isNotEmpty() }) {
             val leftHandPair = pairsInLeftHand.firstOrNull()
             val rightHandPair = pairsInRightHand.firstOrNull()
@@ -51,14 +48,13 @@ class PokerHands {
                             when {
                                 nonPairHandLeftMax.rank > nonPairHandRightMax.rank -> "left hand wins. - with even pair, higher card: ${nonPairHandLeftMax.valueString()}"
                                 nonPairHandLeftMax.rank < nonPairHandRightMax.rank -> "right hand wins. - with even pair, higher card: ${nonPairHandRightMax.valueString()}"
-                                else -> "Tie."
+                                else -> "Tie. - with even pair, even cars."
                             }
                         }
                     }
                 }
             }
         }
-
         val leftHandMax = maxCard(leftHand)
         val rightHandMax = maxCard(rightHand)
         return when {

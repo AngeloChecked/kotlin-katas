@@ -119,4 +119,28 @@ class PokerHandsTest {
 
         assertEquals("right hand wins. - with even pair, higher card: A", winner)
     }
+
+    @Test
+    fun `pair vs pair - Tie`() {
+        val leftHand = listOf(
+            Card(2, "C"),
+            Card(2, "D"),
+
+            Card(5, "H"),
+            Card(7, "S"),
+            Card(10, "S"),
+        )
+        val rightHand = listOf(
+            Card(2, "S"),
+            Card(2, "C"),
+
+            Card(5, "H"),
+            Card(7, "H"),
+            Card(10, "D"),
+        )
+
+        val winner = PokerHands().whichWin(leftHand, rightHand)
+
+        assertEquals("Tie. - with even pair, even cars.", winner)
+    }
 }
