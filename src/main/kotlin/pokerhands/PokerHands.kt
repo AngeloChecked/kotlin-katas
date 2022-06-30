@@ -63,8 +63,8 @@ class PokerHands {
         leftHandPair: List<Card>,
         rightHandPair: List<Card>
     ): String? {
-        val leftHandPairSum = leftHandPair!!.maxOf { it.rank }
-        val rightHandPairSum = rightHandPair!!.maxOf { it.rank }
+        val leftHandPairSum = leftHandPair.maxOf { it.rank }
+        val rightHandPairSum = rightHandPair.maxOf { it.rank }
         return when {
             leftHandPairSum > rightHandPairSum -> "left hand wins. - with pair: ${leftHandPair.format()}"
             rightHandPairSum > leftHandPairSum -> "right hand wins. - with pair: ${rightHandPair.format()}"
