@@ -33,27 +33,9 @@ class PokerHands {
         if (listOf(pairsInLeftHand, pairsInRightHand).any { it.isNotEmpty() }) {
             val leftHandPair = pairsInLeftHand.firstOrNull()
             val rightHandPair = pairsInRightHand.firstOrNull()
-            return when {
-                pairsInRightHand.isEmpty() -> "left hand wins. - with pair: ${leftHandPair?.format()}"
-                pairsInLeftHand.isEmpty() -> "right hand wins. - with pair: ${rightHandPair?.format()}"
-                else -> {
-                    val leftHandPairSum = leftHandPair!!.maxOf { it.rank }
-                    val rightHandPairSum = rightHandPair!!.maxOf { it.rank }
-                    when {
-                        leftHandPairSum > rightHandPairSum -> "left hand wins. - with pair: ${leftHandPair.format()}"
-                        rightHandPairSum > leftHandPairSum -> "right hand wins. - with pair: ${rightHandPair.format()}"
-                        else -> {
-                            val nonPairHandLeftMax = maxCard(leftHand - leftHandPair)
-                            val nonPairHandRightMax = maxCard(rightHand - rightHandPair)
-                            when {
-                                nonPairHandLeftMax.rank > nonPairHandRightMax.rank -> "left hand wins. - with even pair, higher card: ${nonPairHandLeftMax.valueString()}"
-                                nonPairHandLeftMax.rank < nonPairHandRightMax.rank -> "right hand wins. - with even pair, higher card: ${nonPairHandRightMax.valueString()}"
-                                else -> "Tie. - with even pair, even cars."
-                            }
-                        }
-                    }
-                }
-            }
+            return pairVsNone(pairsInRightHand, leftHandPair, pairsInLeftHand, rightHandPair)
+                ?: higherPair(leftHandPair!!, rightHandPair!!)
+                ?: evenPairs(leftHand, leftHandPair!!, rightHand, rightHandPair!!)
         }
         val leftHandMax = maxCard(leftHand)
         val rightHandMax = maxCard(rightHand)
@@ -63,6 +45,45 @@ class PokerHands {
             leftHandMax.rank < rightHandMax.rank ->
                 "right hand wins. - with high card: " + rightHandMax.valueString()
             else -> "Tie."
+        }
+    }
+
+    private fun pairVsNone(
+        pairsInRightHand: List<List<Card>>,
+        leftHandPair: List<Card>?,
+        pairsInLeftHand: List<List<Card>>,
+        rightHandPair: List<Card>?
+    ) = when {
+        pairsInRightHand.isEmpty() -> "left hand wins. - with pair: ${leftHandPair?.format()}"
+        pairsInLeftHand.isEmpty() -> "right hand wins. - with pair: ${rightHandPair?.format()}"
+        else -> null
+    }
+
+    private fun higherPair(
+        leftHandPair: List<Card>,
+        rightHandPair: List<Card>
+    ): String? {
+        val leftHandPairSum = leftHandPair!!.maxOf { it.rank }
+        val rightHandPairSum = rightHandPair!!.maxOf { it.rank }
+        return when {
+            leftHandPairSum > rightHandPairSum -> "left hand wins. - with pair: ${leftHandPair.format()}"
+            rightHandPairSum > leftHandPairSum -> "right hand wins. - with pair: ${rightHandPair.format()}"
+            else -> null
+        }
+    }
+
+    private fun evenPairs(
+        leftHand: List<Card>,
+        leftHandPair: List<Card>,
+        rightHand: List<Card>,
+        rightHandPair: List<Card>
+    ): String {
+        val nonPairHandLeftMax = maxCard(leftHand - leftHandPair)
+        val nonPairHandRightMax = maxCard(rightHand - rightHandPair)
+        return when {
+            nonPairHandLeftMax.rank > nonPairHandRightMax.rank -> "left hand wins. - with even pair, higher card: ${nonPairHandLeftMax.valueString()}"
+            nonPairHandLeftMax.rank < nonPairHandRightMax.rank -> "right hand wins. - with even pair, higher card: ${nonPairHandRightMax.valueString()}"
+            else -> "Tie. - with even pair, even cars."
         }
     }
 
